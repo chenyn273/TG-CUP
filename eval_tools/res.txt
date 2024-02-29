@@ -1,0 +1,91 @@
+cup nciu: 0.6904533166798255
+Bleu_1: cup -p: 2.0203165672462137e-48
+heb nciu: 0.6560446129128338
+Bleu_1: heb -p: 2.0177696905783453e-118
+hat nciu: 0.7530029301894076
+Bleu_1: hat -p: 2.497171127094688e-17
+Bleu_1: our nciu: 0.75222044637418
+cup nciu: 0.6185735479080681
+Bleu_2: cup -p: 1.5174370912748232e-16
+heb nciu: 0.5788722257373533
+Bleu_2: heb -p: 9.676466974325609e-63
+hat nciu: 0.6852130445568979
+Bleu_2: hat -p: 9.834606056852941e-30
+Bleu_2: our nciu: 0.6732880883250847
+cup nciu: 0.5444991114612099
+Bleu_3: cup -p: 7.693945908262595e-13
+heb nciu: 0.4975882164155099
+Bleu_3: heb -p: 3.815160810571968e-56
+hat nciu: 0.6273083705670252
+Bleu_3: hat -p: 9.92367612279035e-44
+Bleu_3: our nciu: 0.6024394786902456
+cup nciu: 0.47170254474698786
+Bleu_4: cup -p: 1.0441712768618792e-17
+heb nciu: 0.42190170008616534
+Bleu_4: heb -p: 6.497377291473448e-62
+hat nciu: 0.5744861056408558
+Bleu_4: hat -p: 3.2695261720581213e-53
+Bleu_4: our nciu: 0.5397341623841647
+cup nciu: 0.4628704925334196
+METEOR: cup -p: 2.2891177840202295e-11
+heb nciu: 0.470399446105792
+METEOR: heb -p: 0.0038774330630823133
+hat nciu: 0.5170391636708321
+METEOR: hat -p: 4.7430964707207526e-08
+METEOR: our nciu: 0.5464123481291729
+cup nciu: 0.7388577072230958
+ROUGE_L: cup -p: 1.0795024163796352e-20
+heb nciu: 0.7074637684911139
+ROUGE_L: heb -p: 2.4031597916181557e-79
+hat nciu: 0.8122438635128376
+ROUGE_L: hat -p: 1.0952878078022891e-71
+ROUGE_L: our nciu: 0.7777252826374391
+cup nciu: 0.88105239822356
+SkipThoughtCS: cup -p: 0.02118612693639323
+heb nciu: 0.8858085460356345
+SkipThoughtCS: heb -p: 7.501111113219002e-05
+hat nciu: 0.8788409933397542
+SkipThoughtCS: hat -p: 0.8156934157243176
+SkipThoughtCS: our nciu: 0.8923050639158284
+cup nciu: 0.925433583798519
+EmbeddingAverageCosineSimilarity: cup -p: 5.093283184633764e-21
+heb nciu: 0.920082480591975
+EmbeddingAverageCosineSimilarity: heb -p: 8.408775713584685e-38
+hat nciu: 0.9454764965597788
+EmbeddingAverageCosineSimilarity: hat -p: 4.663515638246262e-06
+EmbeddingAverageCosineSimilarity: our nciu: 0.9454648408412312
+cup nciu: 0.925433583798519
+EmbeddingAverageCosineSimilairty: cup -p: 5.093283184633764e-21
+heb nciu: 0.920082480591975
+EmbeddingAverageCosineSimilairty: heb -p: 8.408775713584685e-38
+hat nciu: 0.9454764965597788
+EmbeddingAverageCosineSimilairty: hat -p: 4.663515638246262e-06
+EmbeddingAverageCosineSimilairty: our nciu: 0.9454648408412312
+cup nciu: 0.8214469323640166
+VectorExtremaCosineSimilarity: cup -p: 1.777888806800125e-14
+heb nciu: 0.8153870511488994
+VectorExtremaCosineSimilarity: heb -p: 1.321787905323883e-08
+hat nciu: 0.8168425975593977
+VectorExtremaCosineSimilarity: hat -p: 3.528163955812495e-12
+VectorExtremaCosineSimilarity: our nciu: 0.8073789906529902
+cup nciu: 0.9303815065558826
+GreedyMatchingScore: cup -p: 1.4492652892402799e-78
+heb nciu: 0.9289878505776937
+GreedyMatchingScore: heb -p: 8.906614269176306e-72
+hat nciu: 0.9135395845774383
+GreedyMatchingScore: hat -p: 1.5459474404608329e-15
+GreedyMatchingScore: our nciu: 0.9077362012203041
+cup nciu: 0.40648590157072123
+SARI: cup -p: 4.212458458127027e-218
+heb nciu: 0.3541646340437451
+SARI: heb -p: 4.3344165024326715e-249
+hat nciu: 0.4159902093131406
+SARI: hat -p: 2.545171325980361e-118
+SARI: our nciu: 0.5597385656820716
+cup nciu: 0.04400882772945606
+Accuracy: cup -p: 4.796110569057322e-190
+heb nciu: 0.0
+Accuracy: heb -p: 3.526707884799782e-123
+hat nciu: 0.13488251330650397
+Accuracy: hat -p: 5.128072922934875e-32
+Accuracy: our nciu: 0.27651564325587435
