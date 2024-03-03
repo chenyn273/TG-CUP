@@ -34,48 +34,6 @@ hat nciu: 0.5170391636708321
 METEOR: hat -p: 4.7430964707207526e-08
 METEOR: our nciu: 0.5464123481291729
 cup nciu: 0.7388577072230958
-ROUGE_L: cup -p: 1.0795024163796352e-20
-heb nciu: 0.7074637684911139
-ROUGE_L: heb -p: 2.4031597916181557e-79
-hat nciu: 0.8122438635128376
-ROUGE_L: hat -p: 1.0952878078022891e-71
-ROUGE_L: our nciu: 0.7777252826374391
-cup nciu: 0.88105239822356
-SkipThoughtCS: cup -p: 0.02118612693639323
-heb nciu: 0.8858085460356345
-SkipThoughtCS: heb -p: 7.501111113219002e-05
-hat nciu: 0.8788409933397542
-SkipThoughtCS: hat -p: 0.8156934157243176
-SkipThoughtCS: our nciu: 0.8923050639158284
-cup nciu: 0.925433583798519
-EmbeddingAverageCosineSimilarity: cup -p: 5.093283184633764e-21
-heb nciu: 0.920082480591975
-EmbeddingAverageCosineSimilarity: heb -p: 8.408775713584685e-38
-hat nciu: 0.9454764965597788
-EmbeddingAverageCosineSimilarity: hat -p: 4.663515638246262e-06
-EmbeddingAverageCosineSimilarity: our nciu: 0.9454648408412312
-cup nciu: 0.925433583798519
-EmbeddingAverageCosineSimilairty: cup -p: 5.093283184633764e-21
-heb nciu: 0.920082480591975
-EmbeddingAverageCosineSimilairty: heb -p: 8.408775713584685e-38
-hat nciu: 0.9454764965597788
-EmbeddingAverageCosineSimilairty: hat -p: 4.663515638246262e-06
-EmbeddingAverageCosineSimilairty: our nciu: 0.9454648408412312
-cup nciu: 0.8214469323640166
-VectorExtremaCosineSimilarity: cup -p: 1.777888806800125e-14
-heb nciu: 0.8153870511488994
-VectorExtremaCosineSimilarity: heb -p: 1.321787905323883e-08
-hat nciu: 0.8168425975593977
-VectorExtremaCosineSimilarity: hat -p: 3.528163955812495e-12
-VectorExtremaCosineSimilarity: our nciu: 0.8073789906529902
-cup nciu: 0.9303815065558826
-GreedyMatchingScore: cup -p: 1.4492652892402799e-78
-heb nciu: 0.9289878505776937
-GreedyMatchingScore: heb -p: 8.906614269176306e-72
-hat nciu: 0.9135395845774383
-GreedyMatchingScore: hat -p: 1.5459474404608329e-15
-GreedyMatchingScore: our nciu: 0.9077362012203041
-cup nciu: 0.40648590157072123
 SARI: cup -p: 4.212458458127027e-218
 heb nciu: 0.3541646340437451
 SARI: heb -p: 4.3344165024326715e-249
