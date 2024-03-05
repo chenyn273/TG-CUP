@@ -277,7 +277,7 @@ class DecoderLayer(nn.Module):
 
 
 class Transformer(nn.Module):
-    def __init__(self, afe_encoder, gnn_encoder, decoder, afe_embed, gnn_embed, generator):
+    def __init__(self, afe_encoder, gnn_encoder, decoder, afe_embed, generator):
         super(Transformer, self).__init__()
 
         ''' ------------ afe -------------'''
@@ -286,12 +286,11 @@ class Transformer(nn.Module):
         self.decoder = decoder
         '''包含code node action和注释代码嵌入'''
         self.afe_embed = afe_embed
-        self.gnn_embed = gnn_embed
         self.generator = generator
 
     def encode(self, src, src_mask, node_values, node_len, node_as_output, edge_pret2ch, edge_prev2next, edge_align,
                edge_com2sub):
-        node_embeddings = self.gnn_embed(node_values)
+        node_embeddings = self.afe_embed(node_values)
         node_state, node_mask, graph_state = self.gnn_encoder(node_embeddings, node_len, node_as_output, edge_pret2ch,
                                                               edge_prev2next,
                                                               edge_align, edge_com2sub)
@@ -336,7 +335,6 @@ def make_model(afe_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0.1):
         GNNEncoder(d_model, 4),
         # None,
         Decoder(DecoderLayer(d_model, c(attn), c(attn), c(attn), c(ff), dropout).to(DEVICE), N).to(DEVICE),
-        nn.Sequential(Embeddings(d_model, afe_vocab).to(DEVICE), c(position)),
         nn.Sequential(Embeddings(d_model, afe_vocab).to(DEVICE), c(position)),
         Generator(d_model, afe_vocab)).to(DEVICE)
 
