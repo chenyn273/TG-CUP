@@ -1,5 +1,5 @@
 # TG-CUP
-## data
+## Data
 https://drive.google.com/drive/folders/1Ph5LEJXwMBz89qEIe2KXP_-MGnnHMcOA?usp=sharing
 ## Utils
 1. tokenizer for BPE Training
