@@ -29,21 +29,21 @@ class Batch:
 
     def __init__(self, gnn_input, afe_encoder_text, new_cmt_text, afe_encoder_input, new_cmt=None, pad=0):
         self.node_value = gnn_input[0].to(DEVICE)
-        self.node_action = gnn_input[1].to(DEVICE)
+        # self.node_action = gnn_input[1].to(DEVICE)
         self.node_len = gnn_input[2]
         self.node_as_output = gnn_input[3]
         self.edge_prt2ch = gnn_input[4]
         self.edge_prev2next = gnn_input[5]
         self.edge_align = gnn_input[6]
         self.edge_com2sub = gnn_input[7]
-        self.afe_encoder_text = afe_encoder_text
+        # self.afe_encoder_text = afe_encoder_text
         self.new_cmt_text = new_cmt_text
 
         afe_encoder_input = afe_encoder_input.to(DEVICE)
         # gnn_input = gnn_input.to(DEVICE)
 
         self.afe_encoder_input = afe_encoder_input
-        self.gnn_input = gnn_input
+        # self.gnn_input = gnn_input
         # 对于当前输入的句子非空部分进行判断成bool序列
         # 并在seq length前面增加一维，形成维度为 1×seq length 的矩阵
         self.afe_encoder_mask = (afe_encoder_input != pad).unsqueeze(-2)
@@ -86,12 +86,10 @@ class MTDataset(Dataset):
 
     def get_dataset(self, data_path, sort=False):
         """---------------------- AFE-CUP ---------------------"""
-
         code_change_seqs = []
         old_cmt_seqs = []
         new_cmt_seqs = []
         gnn_inputs = []
-
         with open(data_path, 'r+', encoding='utf8') as f:
             js = list(jsonlines.Reader(f))
             for e in js:
@@ -107,18 +105,13 @@ class MTDataset(Dataset):
                                    'edge_prev2next': e['edge_prev2next'],
                                    'edge_align': e['edge_align'],
                                    'edge_com2sub': e['edge_com2sub']})
-
         return code_change_seqs, old_cmt_seqs, new_cmt_seqs, gnn_inputs
 
     def __getitem__(self, idx):
-        # eng_text = self.out_en_sent[idx]
-        # chn_text = self.out_cn_sent[idx]
         gnn_input = self.gnn_inputs[idx]
-
         old_cmt = self.old_cmt_seqs[idx]
         code_edit = self.code_change_seqs[idx]
         new_cmt = self.new_cmt_seqs[idx]
-
         return [gnn_input, old_cmt, code_edit, new_cmt]
 
     def __len__(self):
@@ -142,14 +135,12 @@ class MTDataset(Dataset):
                 else:
                     temp.append(True)
             node_as_output.append(temp)
-
         node_values = [
             [self.sp_afe.EncodeAsIds(n)[-1] if len(self.sp_afe.EncodeAsIds(n)) > 0 else 31939 for n in nv] for nv in
             node_values]
         node_actions = [
             [self.sp_afe.EncodeAsIds(n)[-1] if len(self.sp_afe.EncodeAsIds(n)) > 0 else 31939 for n in nv] for nv in
             node_actions]
-
         old_cmt = [x[1] for x in batch]
         code_edit = [x[2] for x in batch]
         code_edit_tokens = []
