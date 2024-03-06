@@ -18,7 +18,7 @@ early_stop = 5
 lr = 0.001
 
 # greed decode的最大句子长度
-max_len = 50
+max_len = 100
 # beam size for bleu
 beam_size = 5
 # Label Smoothing
