@@ -123,7 +123,7 @@ def beam_search(model, src, src_mask, node_values, node_len, node_as_output, edg
         return beamed_tensor
 
     def collate_active_info(
-            src_enc, node_state, src_mask, inst_idx_to_position_map, active_inst_idx_list):
+            src_enc, node_state, src_mask, node_mask, inst_idx_to_position_map, active_inst_idx_list):
         # Sentences which are still active are collected,
         # so the decoder will not run on completed sentences.
         n_prev_active_inst = len(inst_idx_to_position_map)
@@ -134,8 +134,9 @@ def beam_search(model, src, src_mask, node_values, node_len, node_as_output, edg
         active_node_state = collect_active_part(node_state, active_inst_idx, n_prev_active_inst, beam_size)
         active_inst_idx_to_position_map = get_inst_idx_to_tensor_position_map(active_inst_idx_list)
         active_src_mask = collect_active_part(src_mask, active_inst_idx, n_prev_active_inst, beam_size)
+        active_node_mask = collect_active_part(node_mask, active_inst_idx, n_prev_active_inst, beam_size)
 
-        return active_src_enc, active_node_state, active_src_mask, active_inst_idx_to_position_map
+        return active_src_enc, active_node_state, active_src_mask, active_node_mask, active_inst_idx_to_position_map
 
     def beam_decode_step(
             inst_dec_beams, len_dec_seq, enc_output, node_state, inst_idx_to_position_map, n_bm):
@@ -150,8 +151,9 @@ def beam_search(model, src, src_mask, node_values, node_len, node_as_output, edg
             return dec_partial_seq
 
         def predict_word(dec_seq, enc_output, node_state, n_active_inst, n_bm):
-            assert enc_output.shape[0] == dec_seq.shape[0] == src_mask.shape[0]
-            temp_input = (enc_output, node_state)
+            assert enc_output.shape[0] == dec_seq.shape[0] == src_mask.shape[0] == node_state.shape[0] == \
+                   node_mask.shape[0]
+            temp_input = (enc_output, node_state, node_mask)
             out = model.decode(temp_input, src_mask,
                                dec_seq,
                                subsequent_mask(dec_seq.size(1))
@@ -199,9 +201,10 @@ def beam_search(model, src, src_mask, node_values, node_len, node_as_output, edg
 
     with torch.no_grad():
         # -- Encode
-        src_enc, node_state = model.encode(src, src_mask, node_values, node_len, node_as_output, edge_pret2ch,
-                                           edge_prev2next,
-                                           edge_align, edge_com2sub)
+        src_enc, node_state, node_mask = model.encode(src, src_mask, node_values, node_len, node_as_output,
+                                                      edge_pret2ch,
+                                                      edge_prev2next,
+                                                      edge_align, edge_com2sub)
 
         #  Repeat data for beam search
         NBEST = beam_size
@@ -211,6 +214,7 @@ def beam_search(model, src, src_mask, node_values, node_len, node_as_output, edg
 
         batch_size, sent_len, h_dim = node_state.size()
         node_state = node_state.repeat(1, beam_size, 1).view(batch_size * beam_size, sent_len, h_dim)
+        node_mask = node_mask.repeat(1, beam_size, 1).view(batch_size * beam_size, 1, node_mask.shape[-1])
 
         # -- Prepare beams
         inst_dec_beams = [Beam(beam_size, pad, bos, eos, device) for _ in range(batch_size)]
@@ -228,8 +232,8 @@ def beam_search(model, src, src_mask, node_values, node_len, node_as_output, edg
             if not active_inst_idx_list:
                 break  # all instances have finished their path to <EOS>
             # filter out inactive tensor parts (for already decoded sequences)
-            src_enc, node_state, src_mask, inst_idx_to_position_map = collate_active_info(
-                src_enc, node_state, src_mask, inst_idx_to_position_map, active_inst_idx_list)
+            src_enc, node_state, src_mask, node_mask, inst_idx_to_position_map = collate_active_info(
+                src_enc, node_state, src_mask, node_mask, inst_idx_to_position_map, active_inst_idx_list)
 
     batch_hyp, batch_scores = collect_hypothesis_and_scores(inst_dec_beams, NBEST)
 
