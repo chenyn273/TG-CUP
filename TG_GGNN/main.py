@@ -79,28 +79,8 @@ def run():
     test(test_dataloader, model, criterion)
 
 
-def check_opt():
-    """check learning rate changes"""
-    import numpy as np
-    import matplotlib.pyplot as plt
-    model = make_model(config.src_vocab_size, config.tgt_vocab_size, config.n_layers,
-                       config.d_model, config.d_ff, config.n_heads, config.dropout)
-    opt = get_std_opt(model)
-    # Three settings of the lrate hyperparameters.
-    opts = [opt,
-            NoamOpt(512, 1, 20000, None),
-            NoamOpt(256, 1, 10000, None)]
-    plt.plot(np.arange(1, 50000), [[opt.rate(i) for opt in opts] for i in range(1, 50000)])
-    plt.legend(["512:10000", "512:20000", "256:10000"])
-    plt.show()
-
-
-
-
 
 if __name__ == "__main__":
-    import os
-    os.environ['CUDA_VISIBLE_DEVICES'] = '2, 3'
     import warnings
     warnings.filterwarnings('ignore')
     run()
