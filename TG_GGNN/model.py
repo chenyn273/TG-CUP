@@ -240,14 +240,14 @@ class Decoder(nn.Module):
         # Layer Norm
         self.norm = LayerNorm(layer.size)
 
-    def forward(self, x, memory, node_states, src_mask, tgt_mask):
+    def forward(self, x, memory, node_states, src_mask, node_mask, tgt_mask):
         """
         使用循环连续decode N次(这里为6次)
         这里的Decoderlayer会接收一个对于输入的attention mask处理
         和一个对输出的attention mask + subsequent mask处理
         """
         for layer in self.layers:
-            x = layer(x, memory, node_states, src_mask, tgt_mask)
+            x = layer(x, memory, node_states, src_mask, node_mask, tgt_mask)
         return self.norm(x)
 
 
@@ -263,7 +263,7 @@ class DecoderLayer(nn.Module):
         self.feed_forward = feed_forward
         self.sublayer = clones(SublayerConnection(size, dropout), 4)
 
-    def forward(self, x, memory, node_states, src_mask, tgt_mask):
+    def forward(self, x, memory, node_states, src_mask, node_mask, tgt_mask):
         # 用m来存放encoder的最终hidden表示结果
         m = memory
 
@@ -272,7 +272,7 @@ class DecoderLayer(nn.Module):
         # Context-Attention：注意context-attention的q为decoder hidden，而k和v为encoder hidden
         x = self.sublayer[1](x, lambda x: self.src_attn(x, m, m, src_mask))
         # Node-Attention
-        x = self.sublayer[2](x, lambda x: self.gnn_attn(x, node_states, node_states, None))
+        x = self.sublayer[2](x, lambda x: self.gnn_attn(x, node_states, node_states, node_mask))
         return self.sublayer[3](x, self.feed_forward)
 
 
@@ -288,24 +288,26 @@ class Transformer(nn.Module):
         self.afe_embed = afe_embed
         self.generator = generator
 
-    def encode(self, src, src_mask, node_values, node_len, node_as_output, edge_pret2ch, edge_prev2next, edge_align,
+    def encode(self, src, src_mask, node_values, node_len, node_as_output, edge_pret2ch, edge_prev2next,
+               edge_align,
                edge_com2sub):
         node_embeddings = self.afe_embed(node_values)
         node_state, node_mask, graph_state = self.gnn_encoder(node_embeddings, node_len, node_as_output, edge_pret2ch,
                                                               edge_prev2next,
                                                               edge_align, edge_com2sub)
-        return self.afe_encoder(self.afe_embed(src), src_mask), node_state
+        return self.afe_encoder(self.afe_embed(src), src_mask), node_state, node_mask
 
-    def decode(self, memory, src_mask, tgt, tgt_mask):
-        memory, node_states = memory[0], memory[1]
-        return self.decoder(self.afe_embed(tgt), memory, node_states, src_mask, tgt_mask)
+    def decode(self, encoder_output, src_mask, tgt, tgt_mask):
+        memory, node_states, node_mask = encoder_output[0], encoder_output[1], encoder_output[2]
+        return self.decoder(self.afe_embed(tgt), memory, node_states, src_mask, node_mask, tgt_mask)
 
     def forward(self, new_cmt_mask, node_values, node_len, node_as_output, edge_pret2ch, edge_prev2next, edge_align,
                 edge_com2sub, afe_src, new_cmt, afe_mask):
         ''' ----------- afe cup --------------'''
 
         return self.decode(
-            self.encode(afe_src, afe_mask, node_values, node_len, node_as_output, edge_pret2ch, edge_prev2next,
+            self.encode(afe_src, afe_mask, node_values, node_len, node_as_output, edge_pret2ch,
+                        edge_prev2next,
                         edge_align, edge_com2sub), afe_mask, new_cmt, new_cmt_mask)
 
 
