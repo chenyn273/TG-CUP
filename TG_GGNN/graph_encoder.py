@@ -55,9 +55,10 @@ class GNNEncoder(nn.Module):
         batch_graph_vec = torch.cat(batch_graph_vec, dim=0)
         lens = [x.shape[0] for x in batch_node_vec]
         batch_node_vec = pad_sequence(batch_node_vec)
-        batch_node_mask = torch.zeros(batch_size, batch_node_vec.shape[0], device=self.device)
+        node_mask = torch.Tensor(batch_size, 1, max(lens)) == 999999
         for i in range(batch_size):
-            batch_node_mask[i, lens[i]:] = 1
+            node_mask[i, :, :lens[i]] = True
+        # self.node_mask = (self.node_value != pad).unsqueeze(-2)
         # batch_node_vec, type, tensor    size: batch_size, num_node, hidden_size
         # batch_graph_vec, type, tensor,  size: batch_size, hidden_size
-        return batch_node_vec.permute(1, 0, 2), batch_node_mask, batch_graph_vec
+        return batch_node_vec.permute(1, 0, 2), node_mask, batch_graph_vec
