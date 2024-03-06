@@ -37,17 +37,13 @@ def train(train_data, dev_data, model, model_par, criterion, optimizer):
     for epoch in range(1, config.epoch_num + 1):
         # 模型训练
         model.train()
-        # train_loss = run_epoch(train_data, model_par,
-        #                        MultiGPULossCompute(model.generator, criterion, config.device_id, optimizer))
         train_loss = run_epoch(train_data, model_par,
-                               LossCompute(model.generator, criterion, optimizer))
+                               MultiGPULossCompute(model.generator, criterion, config.device_id, optimizer))
         logging.info("Epoch: {}, loss: {}".format(epoch, train_loss))
         # 模型验证
         model.eval()
-        # dev_loss = run_epoch(dev_data, model_par,
-        #                      MultiGPULossCompute(model.generator, criterion, config.device_id, None))
         dev_loss = run_epoch(dev_data, model_par,
-                             LossCompute(model.generator, criterion, None))
+                             MultiGPULossCompute(model.generator, criterion, config.device_id, None))
         bleu_score = evaluate(dev_data, model)
         logging.info('Epoch: {},  dev_loss: {}, Bleu Score: {}'.format(epoch, dev_loss, bleu_score))
 
@@ -197,10 +193,8 @@ def test(data, model, criterion):
         model_par = torch.nn.DataParallel(model)
         model.eval()
         # 开始预测
-        # test_loss = run_epoch(data, model_par,
-        #                       MultiGPULossCompute(model.generator, criterion, config.device_id, None))
-        # test_loss = run_epoch(data, model_par,
-        #                        LossCompute(model.generator, criterion, None))
+        test_loss = run_epoch(data, model_par,
+                              MultiGPULossCompute(model.generator, criterion, config.device_id, None))
         bleu_score = evaluate(data, model, 'test')
         logging.info('Bleu Score: {}'.format(bleu_score))
 
