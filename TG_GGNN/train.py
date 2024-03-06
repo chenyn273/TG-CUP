@@ -49,7 +49,7 @@ def train(train_data, dev_data, model, model_par, criterion, optimizer):
         dev_loss = run_epoch(dev_data, model_par,
                              LossCompute(model.generator, criterion, None))
         bleu_score = evaluate(dev_data, model)
-        logging.info('Epoch: {},  Bleu Score: {}'.format(epoch, bleu_score))
+        logging.info('Epoch: {},  dev_loss: {}, Bleu Score: {}'.format(epoch, dev_loss, bleu_score))
 
         # 如果当前epoch的模型在dev集上的loss优于之前记录的最优loss则保存当前模型，并更新最优loss值
         if best_bleu_score < bleu_score or best_loss > dev_loss:
@@ -60,7 +60,6 @@ def train(train_data, dev_data, model, model_par, criterion, optimizer):
             torch.save(model.state_dict(), config.model_path)
             early_stop = config.early_stop
             logging.info("-------- Save Best Model! --------")
-
         else:
             early_stop -= 1
             logging.info("Early Stop Left: {}".format(early_stop))
