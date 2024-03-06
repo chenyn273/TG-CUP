@@ -384,29 +384,3 @@ def batch_greedy_decode(model, src, src_mask, node_values, node_len, node_as_out
                 break
 
     return results
-
-
-def greedy_decode(model, src, src_mask, max_len=64, start_symbol=2, end_symbol=3):
-    """传入一个训练好的模型，对指定数据进行预测"""
-    # 先用encoder进行encode
-    memory = model.encode(src, src_mask)
-    # 初始化预测内容为1×1的tensor，填入开始符('BOS')的id，并将type设置为输入数据类型(LongTensor)
-    ys = torch.ones(1, 1).fill_(start_symbol).type_as(src.data)
-    # 遍历输出的长度下标
-    for i in range(max_len - 1):
-        # decode得到隐层表示
-        out = model.decode(memory,
-                           src_mask,
-                           Variable(ys),
-                           Variable(subsequent_mask(ys.size(1)).type_as(src.data)))
-        # 将隐藏表示转为对词典各词的log_softmax概率分布表示
-        prob = model.generator(out[:, -1])
-        # 获取当前位置最大概率的预测词id
-        _, next_word = torch.max(prob, dim=1)
-        next_word = next_word.data[0]
-        if next_word == end_symbol:
-            break
-        # 将当前位置预测的字符id与之前的预测内容拼接起来
-        ys = torch.cat([ys,
-                        torch.ones(1, 1).type_as(src.data).fill_(next_word)], dim=1)
-    return ys
