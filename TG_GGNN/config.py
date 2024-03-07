@@ -27,9 +27,9 @@ use_smoothing = False
 use_noamopt = True
 
 data_dir = './data'
-train_data_path = './data/json/train_clean_BPE.jsonl'
-dev_data_path = './data/json/valid_clean_BPE.jsonl'
-test_data_path = './data/json/test_clean_BPE.jsonl'
+train_data_path = './data/json/train.jsonl'
+dev_data_path = './data/json/valid.jsonl'
+test_data_path = './data/json/test.jsonl'
 model_path = './experiment/model.pth'
 log_path = './experiment/train.log'
 output_path = './experiment/output.txt'
