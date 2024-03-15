@@ -14,7 +14,7 @@ eos_idx = 3
 afe_vocab_size = 32000
 batch_size = 8
 epoch_num = 200
-early_stop = 5
+early_stop = 10
 lr = 0.001
 
 # greed decode的最大句子长度
