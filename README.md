@@ -4,19 +4,17 @@
 
 Contains the code implementation of TG-CUP.
 
-1. cup_utils: Tools for extracting code features.
-
-2. data
-
+### cup_utils
+Tools for extracting code features.
+### data
 1. get_corpus.py: Script for extracting the corpus (BPE).
-
 2. The training set and validation set need to be placed in this directory.
-
-3. experiment: The location for storing models and the location for logging outputs.
-
-4. precess_ast: Scripts for processing AST.
-
-5. tokenizer: The trained BPE model.
+### experiment
+The location for storing models and the location for logging outputs.
+### precess_ast
+Scripts for processing AST.
+### tokenizer
+The trained BPE model.
 
 ## eval_tools
 
