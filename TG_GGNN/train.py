@@ -64,28 +64,6 @@ def train(train_data, dev_data, model, model_par, criterion, optimizer):
             break
 
 
-class LossCompute:
-    """简单的计算损失和进行参数反向传播更新训练的函数"""
-
-    def __init__(self, generator, criterion, opt=None):
-        self.generator = generator
-        self.criterion = criterion
-        self.opt = opt
-
-    def __call__(self, x, y, norm):
-        x = self.generator(x)
-        loss = self.criterion(x.contiguous().view(-1, x.size(-1)),
-                              y.contiguous().view(-1)) / norm
-        loss.backward()
-        if self.opt is not None:
-            self.opt.step()
-            if config.use_noamopt:
-                self.opt.optimizer.zero_grad()
-            else:
-                self.opt.zero_grad()
-        return loss.data.item() * norm.float()
-
-
 class MultiGPULossCompute:
     """A multi-gpu loss compute and train function."""
 
@@ -146,14 +124,12 @@ class MultiGPULossCompute:
 
 
 def evaluate(data, model, mode='dev', use_beam=True):
-    """在data上用训练好的模型进行预测，打印模型翻译结果"""
     sp_afe = afe_tokenizer_load()
     trg = []
     res = []
     with torch.no_grad():
-        # 在data的英文数据长度上遍历下标
+        # 
         for batch in tqdm(data):
-            # 对应的中文句子
             cn_sent = batch.new_cmt_text
             src = batch.afe_encoder_input
             src_mask = (src != 0).unsqueeze(-2)
@@ -200,7 +176,6 @@ def test(data, model, criterion):
 
 
 def translate(src, model, use_beam=True):
-    """用训练好的模型进行预测单句，打印模型翻译结果"""
     sp_afe = afe_tokenizer_load()
     with torch.no_grad():
         model.load_state_dict(torch.load(config.model_path))
