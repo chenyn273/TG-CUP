@@ -38,8 +38,7 @@ Please download the dataset and then place it in the TG_GGNN/data directory.
    1. eval: storing the evaluation and statistical significance difference analysis of TG-CUP and baseline.
    2. prediction: contains the compiled outputs of CUP, HEB-CUP, HAT-CUP and TG-CUP and some evaluation indicator results.
    3. p_delta.py: code for conducting a statistical significance difference analysis.
-   4. wo.py: evaluate the code for the ablation model.
-   5. utils.py: evaluation script implementation tool.
+   4. utils.py: evaluation script implementation tool.
    ```
 
 2. TG_GGNN
