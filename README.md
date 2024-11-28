@@ -25,9 +25,9 @@ Please download the dataset and then place it in the TG_GGNN/data directory.
 
 ### Artifacts
 
-| Artifact Name      | Location (Link/DOI)                                                                                          | License | Description                                                                     |
-| ------------------ | ------------------------------------------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------- |
-| TG-CUP Source Code | [GitHub Link](https://github.com/chenyn273/TG-CUP)                                                           | MIT     | The source code for training and evaluation.                                    |
+| Artifact Name      | Location (Link/DOI)                                          | License | Description                                                  |
+| ------------------ | ------------------------------------------------------------ | ------- | ------------------------------------------------------------ |
+| TG-CUP Source Code | [GitHub Link](https://github.com/chenyn273/TG-CUP)           | MIT     | The source code for training and evaluation.                 |
 | Trained Model      | [Google Drive Link](https://drive.google.com/drive/folders/1Ph5LEJXwMBz89qEIe2KXP_-MGnnHMcOA?usp=share_link) | CC-BY   | Source dataset used in the experiments. Pretrained models for model evaluation. |
 
 ### GitHub Open Source Package File Description
@@ -62,3 +62,39 @@ Please download the dataset and then place it in the TG_GGNN/data directory.
    14. utils.py: model Implementation tools.
    15. new.xml、old.xml: temporarily generate intermediate files.
    ```
+
+### Model training and inference
+
+1. Training: After downloading the dataset to the specified location according to the GitHub Open Source Package File Description, run the following code
+
+   ```shell
+   python TG_GGNN/main.py
+   ```
+
+   
+
+2. Only model inference: After downloading the trained model and dataset to the specified location according to the GitHub Open Source Package File Description, comment out the following code in TG_GGNN/main.py and run main.py
+
+```python
+51 train_dataset = MTDataset(config.train_data_path)
+52 dev_dataset = MTDataset(config.dev_data_path)
+
+56 train_dataloader = DataLoader(train_dataset, shuffle=True, 	batch_size=config.batch_size,
+                                  collate_fn=train_dataset.collate_fn)
+58 dev_dataloader = DataLoader(dev_dataset, shuffle=False, batch_size=config.batch_size,
+                                collate_fn=dev_dataset.collate_fn)
+78 train(train_dataloader, dev_dataloader, model, model_par, criterion, optimizer)
+
+```
+
+### Model Evaluation
+
+1. Copy TG_GGNN/experiment/output.txt to the tg directory under eval_tools/prediction (already completed; repeat this step if re-inference is needed).
+
+2. Execute the following code
+
+   ```shell
+   python eval_tools/utils.py run
+   ```
+
+   
