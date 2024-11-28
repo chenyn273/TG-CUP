@@ -28,7 +28,7 @@ Please download the dataset and then place it in the TG_GGNN/data directory.
 | Artifact Name      | Location                                                     | License | Description                                                  |
 | ------------------ | ------------------------------------------------------------ | ------- | ------------------------------------------------------------ |
 | TG-CUP Source Code | [GitHub Link](https://github.com/chenyn273/TG-CUP)           | MIT     | The source code for training and evaluation.                 |
-| Trained Model      | [Google Drive Link](https://drive.google.com/drive/folders/1Ph5LEJXwMBz89qEIe2KXP_-MGnnHMcOA?usp=share_link) | CC-BY   | Source dataset used in the experiments. Pretrained models for model evaluation. |
+| Trained Model & Data     | [Google Drive Link](https://drive.google.com/drive/folders/1Ph5LEJXwMBz89qEIe2KXP_-MGnnHMcOA?usp=share_link) | CC-BY   | Source dataset used in the experiments. Pretrained models for model evaluation. |
 
 ### GitHub Open Source Package File Description
 
