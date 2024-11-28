@@ -23,12 +23,6 @@ def eval(src, ref, pred):
             return 1
         else:
             return 0
-        # r = refine(r)
-        # p = refine(p)
-        # if r.replace(' ', '') == p.replace(' ', ''):
-        #     return 1
-        # else:
-        #     return 0
 
     hyp = [pred]
     ref1 = [ref]
@@ -70,7 +64,7 @@ def eval_TG():
         else:
             return s
 
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/tg/output.txt') as f:
+    with open('eval_tools/prediction/tg/output.txt') as f:
         lines = f.readlines()
         for i, line in enumerate(lines):
             if i % 4 == 1:
@@ -78,7 +72,7 @@ def eval_TG():
             if i % 4 == 3:
                 pred.append(mkstr(line.strip()))
 
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/Transformer实现/data/json/test_clean_BPE.jsonl') as f:
+    with open('test_clean_BPE.jsonl') as f:
         js = list(jsonlines.Reader(f))
         for e in js:
             src.append(mkstr(e['src_desc'].strip()))
@@ -97,7 +91,7 @@ def eval_TG():
                 else:
                     m_scores[m].append(1)
     for m in metrics:
-        with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/tg/' + str(m), 'w') as f:
+        with open('eval_tools/prediction/tg/' + str(m), 'w') as f:
             for i in m_scores[m]:
                 f.write(str(i) + ',')
         to_print = sum(m_scores[m]) / len(m_scores[m])
@@ -111,7 +105,7 @@ def eval_heb():
     pred = []
     src = []
     scores = []
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/heb/HebCup_all.json') as f:
+    with open('eval_tools/prediction/heb/HebCup_all.json') as f:
         lines = f.readlines()
     for i, line in enumerate(lines):
         if i % 5 == 1:
@@ -132,7 +126,7 @@ def eval_heb():
             else:
                 m_scores[m].append(s[m])
     for m in metrics:
-        with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/heb/' + str(m), 'w') as f:
+        with open('eval_tools/prediction/heb/' + str(m), 'w') as f:
             for i in m_scores[m]:
                 f.write(str(i) + ',')
         to_print = sum(m_scores[m]) / len(m_scores[m])
@@ -146,7 +140,7 @@ def eval_cup():
     pred = []
     src = []
     scores = []
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/cup/Baseline_CUP.json') as f:
+    with open('eval_tools/prediction/cup/Baseline_CUP.json') as f:
         lines = f.readlines()
     for i, line in enumerate(lines):
         if i % 5 == 1:
@@ -167,7 +161,7 @@ def eval_cup():
             else:
                 m_scores[m].append(s[m])
     for m in metrics:
-        with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/cup/' + str(m), 'w') as f:
+        with open('eval_tools/prediction/cup/' + str(m), 'w') as f:
             for i in m_scores[m]:
                 f.write(str(i) + ',')
         to_print = sum(m_scores[m]) / len(m_scores[m])
@@ -181,15 +175,15 @@ def eval_hat():
     pred = []
     src = []
     scores = []
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/hat/pred.txt') as f:
+    with open('eval_tools/prediction/hat/pred.txt') as f:
         lines = f.readlines()
         for line in lines:
             pred.append(line.split('"')[1])
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/hat/ref.txt') as f:
+    with open('eval_tools/prediction/hat/ref.txt') as f:
         lines = f.readlines()
         for line in lines:
             ref.append(line.strip())
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/hat/src.txt') as f:
+    with open('eval_tools/prediction/hat/src.txt') as f:
         lines = f.readlines()
         for line in lines:
             src.append(line.strip())
@@ -208,7 +202,7 @@ def eval_hat():
                 else:
                     m_scores[m].append(0)
     for m in metrics:
-        with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/prediction/hat/' + str(m), 'w') as f:
+        with open('eval_tools/prediction/hat/' + str(m), 'w') as f:
             for i in m_scores[m]:
                 f.write(str(i) + ',')
         to_print = sum(m_scores[m]) / len(m_scores[m])
@@ -219,7 +213,7 @@ def eval_hat():
 
 def case_analysis(l, our_p, cup_p, heb_p, hat_p):
     res = []
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/Transformer实现/data/json/test_clean_BPE.jsonl') as f:
+    with open('test_clean_BPE.jsonl') as f:
         js = list(jsonlines.Reader(f))
         for i in l:
             e = js[i]
@@ -291,15 +285,17 @@ def eval_all():
 
 def run():
     only_our_true, our_fail, our_pred, cup_pred, heb_pred, hat_pred = eval_all()
-    only_our_true_es = case_analysis(only_our_true, our_pred, cup_pred, heb_pred, hat_pred)
-    our_fail_es = case_analysis(our_fail, our_pred, cup_pred, heb_pred, hat_pred)
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/only_our_true_es', 'w') as f:
+    only_our_true_es = case_analysis(
+        only_our_true, our_pred, cup_pred, heb_pred, hat_pred)
+    our_fail_es = case_analysis(
+        our_fail, our_pred, cup_pred, heb_pred, hat_pred)
+    with open('eval_tools/only_our_true_es', 'w') as f:
         for i in only_our_true_es:
             for key in i.keys():
                 f.write(str(key) + ':\n')
                 f.write(str(i[key]) + '\n')
             f.write('------------------------------------\n')
-    with open('/Users/chenyn/研/论文撰写/Updater/实验/tools/eval_tools/our_fail_es', 'w') as f:
+    with open('eval_tools/our_fail_es', 'w') as f:
         for i in our_fail_es:
             for key in i.keys():
                 f.write(str(key) + ':\n')
