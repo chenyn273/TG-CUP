@@ -2,7 +2,7 @@
 
 ## TG-CUP
 
-This report provides a detailed description of the TG-CUP open-source package, demonstrating how to reproduce the key experimental results from the paper. The open-source package includes the code, data, and environment configuration required for training, testing, and evaluating the TG-CUP model, aiming to support the reproducibility verification of the methods proposed in the paper under different experimental settings. This report lists in detail the functions of each file, the steps for environment configuration, the methods for obtaining the datasets, and the steps for reproducing the experiments.
+This repository provides a detailed description of the TG-CUP open-source package, demonstrating how to reproduce the key experimental results from the paper. The open-source package includes the code, data, and environment configuration required for training, testing, and evaluating the TG-CUP model, aiming to support the reproducibility verification of the methods proposed in the paper under different experimental settings. This report lists in detail the functions of each file, the steps for environment configuration, the methods for obtaining the datasets, and the steps for reproducing the experiments.
 
 ### Environmental Configuration
 
